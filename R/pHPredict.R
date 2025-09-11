@@ -25,7 +25,7 @@ pHPredict <- function(read_file,model,wavelength_keyword="wv",dye_name="universa
   
   preds <- predict(norm_data,model,...) 
   
-  return(cbind(preds,metadata))
+  return(cbind(preds,metadata,qc_data$PassQC))
   
 } 
   

@@ -1,9 +1,4 @@
 
-norm_pH <- function(pH_vals){
-  
-  return((pH_vals-7)/7)
-}
-
 
 
 
@@ -19,7 +14,6 @@ norm_pH <- function(pH_vals){
 train <- function(abs_data, pH_vals, mdl_generator ,wavelength_keyword="wv",...){
   wv_cols  <- grepl(wavelength_keyword,names(abs_data))
   abs <- abs_data[,wv_cols]
-  n_pH <- norm_pH(pH_vals)
   pred_fun <- mdl_generator(abs,n_pH,...)
   
   return(pred_fun)

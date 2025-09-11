@@ -1,6 +1,6 @@
 quality_control <- function(df,...){
   pass_background_subtract <- check_background_subtr(df,...)
-  df$PassBackground <- pass_background_subtract
+  df$PassQC <- pass_background_subtract
   
   return(df)
 }
