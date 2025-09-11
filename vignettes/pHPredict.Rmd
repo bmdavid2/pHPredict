@@ -14,6 +14,35 @@ knitr::opts_chunk$set(
 )
 ```
 
+In this vignette, we will  pHPredict to process absorbance data from a plate reader and make pH predictions. See `Assay.Rmd` for information about performing the pH assay with microplates to generate data. 
+
 ```{r setup}
 library(pHPredict)
 ```
+
+The `pHPredict` function streamlines all of the data parsing, processing, and prediction for pH assays. Users supply a file path to an excel sheet that contains the raw data from a biotek plate reader. We provide example [data](https://github.com/bmdavid2/pHPredict/blob/main/example_biotek_reads/example_pH.xlsx) in our GitHub repostory.
+
+```{r data}
+data_file <- "../example_biotek_reads/example_pH.xlsx"
+
+```
+
+The second argument to pH predict is the model that will be used to make the prediction. In principle, any function that maps a set of input absorbance values to a prediction can be supplied. However, we provide the function `train` that generates a model compatible with the parsed plate reader data. `train` takes absorbance values and a corresponding pH's (we measure with an electrochemical probe), as well as a choice of model. We currenly provide generators for a gaussian process model (`gp_model`), a linear model (first order terms and two way interactions) (`FO_TWI_lin_model`) and a second-order linear model (`SO_lin_model`).  
+
+```{r model_train}
+  training_data <- training_data_THY
+  mdl <- train(training_data,training_data$pH,gp_model) 
+```
+
+with the data and model in hand, `pH_predict` handles the rest: 
+
+```{r ph}
+predictions <- pHPredict(data_file,mdl) 
+head(predictions[,18:25])
+
+
+```
+
+
+  
+  

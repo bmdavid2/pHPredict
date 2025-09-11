@@ -17,3 +17,18 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(pHPredict)
 ```
+## Experimental Map
+
+This manual explains how to properly design your 384-well plate, including the experimental map for dyes and well plate ID's to map predictions back to individual wells. 
+
+In the **figure** below, the experimental map is outlined in the form of a 384-well plate.
+
+Dyes (color fill of cell): <mark> white = blank,</mark> <mark> yellow = universal </mark>
+
+**Important:** Each 384-well plate produces predictions for 2 96-well plates. The odd numbered rows are "plate 1". The even numbered rows are "plate 2" 
+
+```{r "Plate Layout", echo=FALSE, out.width= "80%", fig.align='center'}
+
+
+knitr::include_graphics("/img/plate_layout_example.png")
+```
