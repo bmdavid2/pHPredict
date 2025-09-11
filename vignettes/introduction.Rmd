@@ -1,5 +1,5 @@
 ---
-title: "pH Predict"
+title: "introduction"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{introduction}
@@ -31,5 +31,5 @@ Dyes (color fill of cell): <mark> white = blank,</mark> <mark> yellow = universa
 ```{r "Plate Layout", echo=FALSE, out.width= "80%", fig.align='center'}
 
 
-knitr::include_graphics("images_for_markdown/plate_layout_example.png")
+knitr::include_graphics("plate_layout_example.png")
 ```
