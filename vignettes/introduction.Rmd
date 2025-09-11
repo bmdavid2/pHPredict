@@ -1,0 +1,35 @@
+---
+title: "pH Predict"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pHPredict)
+```
+
+## Experimental Map
+
+This manual explains how to properly design your 384-well plate, including the experimental map for dyes and well plate ID's to map predictions back to individual wells. 
+
+In the **figure** below, the experimental map is outlined in the form of a 384-well plate.
+
+Dyes (color fill of cell): <mark> white = blank,</mark> <mark> yellow = universal </mark>
+
+**Important:** Each 384-well plate produces predictions for 2 96-well plates. The odd numbered rows are "plate 1". The even numbered rows are "plate 2" 
+
+```{r "Plate Layout", echo=FALSE, out.width= "80%", fig.align='center'}
+
+
+knitr::include_graphics("images_for_markdown/plate_layout_example.png")
+```
