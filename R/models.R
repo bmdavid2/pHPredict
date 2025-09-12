@@ -18,7 +18,7 @@ norm_pH <- function(pH_vals){
 #' @export 
 gp_model <- function(abs,ph){
   # transform ph values to a -1 to 1 scale (helpful for stock gp training) 
-  ph_data <- norm_ph(ph)
+  ph_data <- norm_pH(ph)
   
   GP <- laGP::newGPsep(abs,ph_data,d=0.1,g=1e-6,dK=TRUE)
 
