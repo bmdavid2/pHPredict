@@ -23,7 +23,7 @@ library(pHPredict)
 The `pHPredict` function streamlines all of the data parsing, processing, and prediction for pH assays. Users supply a file path to an excel sheet that contains the raw data from a biotek plate reader. We provide example [data](https://github.com/bmdavid2/pHPredict/blob/main/example_biotek_reads/example_pH.xlsx) in our GitHub repostory.
 
 ```{r data}
-data_file <- system.file("example_pH.xlsx", package = "yourpackage")
+data_file <- system.file("example_pH.xlsx", package = "pHPredict")
 
 ```
 

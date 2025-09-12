@@ -30,6 +30,7 @@ Dyes (color fill of cell): <mark> white = blank,</mark> <mark> yellow = universa
 
 ```{r "Plate Layout", echo=FALSE, out.width= "80%", fig.align='center'}
 
+f <- system.file("img/plate_layout_example.png",package="pHPredict")
 
-knitr::include_graphics("/img/plate_layout_example.png")
+knitr::include_graphics(f)
 ```
