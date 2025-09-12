@@ -14,7 +14,7 @@
 train <- function(abs_data, pH_vals, mdl_generator ,wavelength_keyword="wv",...){
   wv_cols  <- grepl(wavelength_keyword,names(abs_data))
   abs <- abs_data[,wv_cols]
-  pred_fun <- mdl_generator(abs,n_pH,...)
+  pred_fun <- mdl_generator(abs,pH_vals,...)
   
   return(pred_fun)
 }
