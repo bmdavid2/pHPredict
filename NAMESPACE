@@ -2,6 +2,8 @@
 
 export(FO_TWI_lin_model)
 export(SO_lin_model)
+export(biotek_300_700_universal)
+export(biotek_ten_wavelengths_universal)
 export(gp_model)
 export(pHPredict)
 export(parse_reads)

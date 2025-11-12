@@ -18,7 +18,13 @@ parse_reads <- function(file,mthd=biotek_ten_wavelengths_universal){
 
 
 
-
+#' helper for the ten_wavelengths.prt protocol
+#'
+#' This function parses a read file from a spectrophotometer
+#'
+#' @param file Path to the input file
+#'
+#' @export
 biotek_ten_wavelengths_universal <- function(file){
   p_rows <- 16
   p_cols <- 24
@@ -53,6 +59,61 @@ biotek_ten_wavelengths_universal <- function(file){
   colnames(clean_abs) <-wv_names
   return(clean_abs)
 }
+
+#' helper for the 300:700 nm spectra biotek read protocol
+#'
+#' This function parses a read file from a spectrophotometer
+#'
+#' @param file Path to the input file
+#' @export
+biotek_300_700_universal <- function(file){
+  p_rows <- 16
+  p_cols <- 24
+  wavelengths <-  seq(300,700,10)
+  n <- length(wavelengths)
+  wv_names = wavelengths |> {function(x) paste("wv",x,sep="")}() # pipe the contents of wavelengths into an anonymous function to create wavelength names
+  rows <- list(c(25:(25+n)),c(70:(70+n)),c(115:(115+n)),c(160:(160+n)))
+  raw_abs = data.frame(matrix(NA, nrow=41,ncol=1))
+  for (i in rows){
+    abs <-  openxlsx::read.xlsx(file, rows = i, cols = 3:(3+96), colNames=TRUE)
+    raw_abs=cbind(raw_abs,abs)
+  }
+  clean_abs = as.data.frame(t(raw_abs[,-1]))
+
+
+  # #### function that parses out each well plate row of data
+  # clean_abs <- data.frame()
+  # for (j in 1:p_cols)
+  #   for (i in 1:p_rows) {
+  #     # print(i)
+  #     row <- raw_abs[(1 + ( n*(i - 1))): (n*i),j ]
+  #     clean_abs <- rbind(clean_abs,row)
+  #   }
+
+  # # browser()
+  ## check for correct dimensions
+  n_rows <- nrow(clean_abs)
+  n_cols <- ncol(clean_abs)
+  if (n_rows != 384 | n_cols != n){
+    stop(paste0("Data parsing not correct dimensions (384 rows x ", n," cols) \n"))
+  }
+
+
+  ### parsed out absorbances
+
+  ## transposing the data where the columns are the wavelengths_510_700 ## can't combine until data is excluded
+
+  colnames(clean_abs) <-wv_names
+  return(clean_abs)
+}
+
+
+
+
+
+
+
+
 
 # ### generating dye experimental map ###
 
