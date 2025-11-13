@@ -16,7 +16,7 @@ train <- function(abs_data, pH_vals, mdl_generator ,wavelength_keyword="wv",...)
   abs <- abs_data[,wv_cols]
   pred_fun <- mdl_generator(abs,pH_vals,...)
 
-  return(pred_fun,wv_cols)
+  return(list(pred_fun,wv_cols))
 }
 
 
