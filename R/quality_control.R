@@ -1,7 +1,7 @@
 quality_control <- function(df,...){
   pass_background_subtract <- check_background_subtr(df,...)
   df$PassQC <- pass_background_subtract
-  
+
   return(df)
 }
 
@@ -9,17 +9,17 @@ quality_control <- function(df,...){
 
 
 
-check_background_subtr <- function(df, subtraction_threshold=-0.1, wavelength_keyword="wv") {
+check_background_subtr <- function(df, subtraction_threshold=-0.1, wavelength_keyword="wv",...) {
   # Check the number of rows (assumes all dataframes are the same length)
-  wv_cols  <- grepl(wavelength_keyword,names(data))
-  
-  
+  wv_cols  <- grepl(wavelength_keyword,names(df))
+
+
   cat("Check for absorbances below threshold value: ", subtraction_threshold, "\n")
-  
+
   n_rows <- nrow(df)
   # Build a logical vector: TRUE = keep, FALSE = remove
   pass <- rep(TRUE, n_rows)
-  
+
   # Loop through rows
   for (i in 1:n_rows) {
     # For each dataframe, extract row i (as numeric)
@@ -32,9 +32,9 @@ check_background_subtr <- function(df, subtraction_threshold=-0.1, wavelength_ke
       cat("Well :", df[i, 'WP384'], "is flagged with values < -0.1 \n")
     }
   }
-  
+
   # Return the list of dataframes with only the rows we want to keep
   return(pass)
-  
-  
+
+
 }

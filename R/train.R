@@ -13,10 +13,11 @@
 #' @export
 train <- function(abs_data, pH_vals, mdl_generator ,wavelength_keyword="wv",...){
   wv_cols  <- grepl(wavelength_keyword,names(abs_data))
+  wv_col_names = names(abs_data)[wv_cols]
   abs <- abs_data[,wv_cols]
   pred_fun <- mdl_generator(abs,pH_vals,...)
 
-  return(list(pred_fun,wv_cols))
+  return(list(pred_fun,wv_col_names))
 }
 
 

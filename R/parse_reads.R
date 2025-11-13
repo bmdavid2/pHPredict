@@ -6,10 +6,10 @@
 #' @param file Path to the input file
 #' @param mthd the parsing method to be used
 #' @export
-parse_reads <- function(file,mthd=biotek_ten_wavelengths_universal){
+parse_reads <- function(file,parse_mthd=biotek_ten_wavelengths_universal,overflow=NaN,...){
 
   # apply a parsing method to a particular file
-  wv_data <- mthd(file)
+  wv_data <- parse_mthd(file,overflow)
 
   parsed_data <- add_well_plate_exp_maps(wv_data)
 
@@ -25,7 +25,7 @@ parse_reads <- function(file,mthd=biotek_ten_wavelengths_universal){
 #' @param file Path to the input file
 #'
 #' @export
-biotek_ten_wavelengths_universal <- function(file){
+biotek_ten_wavelengths_universal <- function(file,overflow){
   p_rows <- 16
   p_cols <- 24
   wavelengths <-  c(510,520,530,550,560,570,610,620,630,700)
@@ -56,6 +56,18 @@ biotek_ten_wavelengths_universal <- function(file){
 
   ## transposing the data where the columns are the wavelengths_510_700 ## can't combine until data is excluded
 
+
+
+  for (i in 1:nrow(clean_abs)){
+    for (j in 1:ncol(clean_abs)){
+      if (clean_abs[i,j] == "OVRFLW"){
+        clean_abs[i,j] = overflow
+      }else{
+        clean_abs[i,j]=as.numeric(clean_abs[i,j])
+      }
+    }
+  }
+  clean_abs<- as.data.frame(sapply(clean_abs, as.numeric))
   colnames(clean_abs) <-wv_names
   return(clean_abs)
 }
@@ -66,7 +78,7 @@ biotek_ten_wavelengths_universal <- function(file){
 #'
 #' @param file Path to the input file
 #' @export
-biotek_300_700_universal <- function(file){
+biotek_300_700_universal <- function(file,overflow){
   p_rows <- 16
   p_cols <- 24
   wavelengths <-  seq(300,700,10)
@@ -78,7 +90,14 @@ biotek_300_700_universal <- function(file){
     abs <-  openxlsx::read.xlsx(file, rows = i, cols = 3:(3+96), colNames=TRUE)
     raw_abs=cbind(raw_abs,abs)
   }
-  clean_abs = as.data.frame(t(raw_abs[,-1]))
+  well_names <- c()
+  for (c in 1:p_cols){
+    for (r in 1:p_rows){
+      well_names <- c(well_names,paste0(LETTERS[r],c))
+    }
+    }
+  raw_abs <- raw_abs[, well_names]
+  clean_abs = as.data.frame(t(raw_abs))
 
 
   # #### function that parses out each well plate row of data
@@ -103,6 +122,18 @@ biotek_300_700_universal <- function(file){
 
   ## transposing the data where the columns are the wavelengths_510_700 ## can't combine until data is excluded
 
+  colnames(clean_abs) <-wv_names
+  for (i in 1:nrow(clean_abs)){
+    for (j in 1:ncol(clean_abs)){
+      if (clean_abs[i,j] == "OVRFLW"){
+        clean_abs[i,j] = overflow
+
+      }else{
+        clean_abs[i,j]=as.numeric(clean_abs[i,j])
+      }
+    }
+  }
+  clean_abs <- as.data.frame(sapply(clean_abs, as.numeric))
   colnames(clean_abs) <-wv_names
   return(clean_abs)
 }
